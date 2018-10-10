@@ -1,0 +1,25 @@
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted {
+  color: black;
+}
+
+.token.punctuation {
+  color: black;
+}
+
+.token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted {
+  color: black;
+}
+
+body {
+  position: relative;
+}
+#code {
+  height: 100vh;
+  overflow: hidden;
+}
