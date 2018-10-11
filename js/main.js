@@ -1,6 +1,3 @@
-
-
-
 let result = `/* 
 * 面试官你好，我是XXX
 * 只用文字作做我介绍太单调了
@@ -59,19 +56,17 @@ html{
   top: 0;
 }
 `
-
 let result2 = `#paper {
-  border: 1px solid #aaa;
   position: fixed;
   right: 0;
-  top： 0;
+  top: 0;
   width: 50%;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 16px;
-  border: 1px solid transparent;
+  border: 1px solid #aaa;
 }
 .content {
   border: 1px solid #aaa;
@@ -92,3 +87,49 @@ dsafsadfsadfas
 + sdf
 + ffffff
 `
+
+writeCode('', result, 10, () => {
+  createPaper(() => {
+    writeCode(result, result2, 10)
+  })
+})
+
+/*
+屏幕上自动写代码功能, 接受四个参数: 
+preCode-上次写入屏幕的内容, code-本次写入屏幕的内容， speed- 显示速度, callback-回调函数
+
+之所有需要上次写入的内容是为了解决Prism重复添加标签的bug
+*/
+function writeCode(preCode, code, speed, callback) {
+  let dom = document.querySelector('#code')
+  let styleTag = document.querySelector('#styleTag')
+  let n = 0
+
+  //用setTimeout模拟setInterval, 这么做主要是为了可以随意调速
+  let id = setTimeout(function fn() {
+    dom.innerHTML = Prism.highlight(
+      preCode + code.substring(0, n),
+      Prism.languages.css
+    )
+    styleTag.innerHTML = preCode + code.substring(0, n)
+
+    //屏幕自动滚动
+    dom.scrollTop = dom.scrollHeight
+
+    n++
+
+    if (n <= code.length) {
+      id = setTimeout(fn, speed)
+    } else if (n > code.length) {
+      callback.call()
+    }
+  }, speed)
+}
+
+//创建paper功能
+function createPaper(callback) {
+  let div = document.createElement('div')
+  div.id = 'paper';
+  document.body.appendChild(div)
+  callback.call()
+}
