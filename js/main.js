@@ -90,7 +90,9 @@ dsafsadfsadfas
 
 writeCode('', result, 10, () => {
   createPaper(() => {
-    writeCode(result, result2, 10)
+    writeCode(result, result2, 10, () => {
+      writeMarkdown(markdown, 10)
+    })
   })
 })
 
@@ -129,7 +131,25 @@ function writeCode(preCode, code, speed, callback) {
 //创建paper功能
 function createPaper(callback) {
   let div = document.createElement('div')
-  div.id = 'paper';
+  div.id = 'paper'
+  let content = document.createElement('pre')
+  content.className = 'content'
+  div.appendChild(content)
   document.body.appendChild(div)
   callback.call()
+}
+
+function writeMarkdown(markdown, callback, speed) {
+  let markdowmDom = document.querySelector('.content')
+  let n = 0
+  let id = setTimeout(function fn() {
+    markdowmDom.innerHTML = markdown.substring(0, n)
+    markdowmDom.scrollTop = markdowmDom.scrollHeight
+    n++
+    if(n <= markdown.length) {
+      id = setTimeout(fn, speed)
+    }else if(n > markdown.length) {
+      callback.call()
+    }
+  }, speed)
 }
