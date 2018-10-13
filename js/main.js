@@ -88,10 +88,10 @@ dsafsadfsadfas
 + ffffff
 `
 
-writeCode('', result, 10, () => {
+writeCode('', result, 50, () => {
   createPaper(() => {
-    writeCode(result, result2, 10, () => {
-      writeMarkdown(markdown, 10)
+    writeCode(result, result2, 50, () => {
+      writeMarkdown(markdown, 50)
     })
   })
 })
